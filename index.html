@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff5a36" />
+  <title>STACK THAT BURGER!</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="arcade-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-star">★</span> BURGER <em>STACK!</em></div>
+      <div class="scoreboard" aria-label="게임 점수">
+        <div><span>STACK</span><strong id="score">0</strong></div>
+        <div><span>BEST</span><strong id="best">0</strong></div>
+      </div>
+    </header>
+
+    <section class="game-card" aria-label="햄버거 쌓기 게임">
+      <div class="intro">
+        <p class="eyebrow">TODAY'S SPECIAL</p>
+        <h1>CLICK TO DROP<br><span>THE GOOD STUFF</span></h1>
+        <p id="message" class="message">움직이는 재료를 눌러 빵 위에 쌓아보세요!</p>
+      </div>
+
+      <div id="game" class="game-area" aria-label="움직이는 재료를 클릭하세요" role="application">
+        <div class="sky-shine shine-one"></div><div class="sky-shine shine-two"></div>
+        <div id="ingredient" class="sprite moving" role="button" tabindex="0" aria-label="재료 떨어뜨리기"></div>
+        <div id="stack" class="stack" aria-hidden="true">
+          <div class="sprite base-bun"></div>
+        </div>
+        <div class="counter"></div>
+        <div id="toast" class="toast" aria-live="polite"></div>
+      </div>
+
+      <footer class="controls">
+        <span class="click-icon">✦</span>
+        <span>날아가는 재료를 <b>클릭</b>하세요</span>
+        <button id="restart" type="button">NEW BURGER ↻</button>
+      </footer>
+    </section>
+    <p class="footer-note">MADE WITH EXTRA CRISPY PIXELS</p>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
