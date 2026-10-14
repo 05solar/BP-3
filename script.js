@@ -48,6 +48,8 @@ function drop() {
   }, 480);
 }
 ingredient.addEventListener('click', drop);
-ingredient.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); drop(); } });
+document.addEventListener('keydown', event => {
+  if (event.code === 'Space') { event.preventDefault(); drop(); }
+});
 addEventListener('resize', updateCamera);
 runIngredient();
