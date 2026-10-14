@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#ffffff" />
   <title>Burger Stack</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="game" class="game-area" aria-label="움직이는 재료를 클릭해서 햄버거를 쌓으세요" role="application">
-    <div id="ingredient" class="sprite moving" role="button" tabindex="0" aria-label="재료 떨어뜨리기"></div>
-    <div id="stack" class="stack" aria-hidden="true"><div class="sprite base-bun"></div></div>
+  <main id="game" aria-label="스페이스바 또는 움직이는 재료를 클릭해 햄버거를 쌓으세요">
+    <div id="burger"><div class="piece bun"></div></div>
+    <div id="falling" class="piece" role="button" tabindex="0" aria-label="재료 떨어뜨리기"></div>
   </main>
   <script src="script.js"></script>
 </body>

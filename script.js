@@ -1,55 +1,96 @@
-const parts = [
-  { w:205, h:62, x:-231, y:-96, layer:42 }, { w:205, h:58, x:-451, y:-100, layer:37 },
-  { w:205, h:61, x:-677, y:-101, layer:39 }, { w:215, h:77, x:-8, y:-293, layer:32 },
-  { w:190, h:55, x:-239, y:-310, layer:30 }, { w:190, h:54, x:-460, y:-310, layer:29 },
-  { w:210, h:64, x:-670, y:-302, layer:40 }
+const ingredients = [
+  { width:205, height:62, x:-231, y:-96, thickness:40 },
+  { width:205, height:58, x:-451, y:-100, thickness:35 },
+  { width:205, height:61, x:-677, y:-101, thickness:39 },
+  { width:215, height:77, x:-8, y:-293, thickness:30 },
+  { width:190, height:55, x:-239, y:-310, thickness:28 },
+  { width:190, height:54, x:-460, y:-310, thickness:28 },
+  { width:210, height:64, x:-670, y:-302, thickness:38 }
 ];
+
 const game = document.querySelector('#game');
-const ingredient = document.querySelector('#ingredient');
-const stack = document.querySelector('#stack');
-let stackHeight = 69, camera = 0, active, dropping = false, runner;
-function paint(el, part) { el.style.width = `${part.w}px`; el.style.height = `${part.h}px`; el.style.backgroundPosition = `${part.x}px ${part.y}px`; }
-function choosePart() { return parts[Math.floor(Math.random() * parts.length)]; }
-function updateCamera() {
-  const visibleHeight = game.clientHeight;
-  camera = Math.max(0, stackHeight - visibleHeight + 150);
-  stack.style.transform = `translateX(-50%) translateY(${camera}px)`;
+const burger = document.querySelector('#burger');
+const falling = document.querySelector('#falling');
+let active;
+let stackHeight = 69;
+let cameraY = 0;
+let state = 'waiting';
+let x = 0;
+let direction = 1;
+let lastFrame = 0;
+
+function setSprite(element, sprite) {
+  element.style.width = `${sprite.width}px`;
+  element.style.height = `${sprite.height}px`;
+  element.style.backgroundPosition = `${sprite.x}px ${sprite.y}px`;
 }
-function runIngredient() {
-  active = choosePart(); paint(ingredient, active); dropping = false;
-  const maxX = Math.max(0, game.clientWidth - active.w);
-  let x = Math.random() * maxX, direction = Math.random() > .5 ? 1 : -1;
-  ingredient.style.left = `${x}px`; ingredient.style.top = '20px';
-  cancelAnimationFrame(runner);
-  let previous = performance.now();
-  function move(now) {
-    if (dropping) return;
-    x += direction * 135 * (now - previous) / 1000;
-    if (x <= 0 || x >= maxX) { direction *= -1; x = Math.max(0, Math.min(maxX, x)); }
-    ingredient.style.left = `${x}px`; previous = now; runner = requestAnimationFrame(move);
+
+function placeBurger() {
+  cameraY = Math.max(0, stackHeight - game.clientHeight + 180);
+  burger.style.transform = `translateX(-50%) translateY(${cameraY}px)`;
+}
+
+function nextIngredient() {
+  active = ingredients[Math.floor(Math.random() * ingredients.length)];
+  setSprite(falling, active);
+  x = Math.random() * Math.max(0, game.clientWidth - active.width);
+  direction = Math.random() < .5 ? -1 : 1;
+  falling.style.left = `${x}px`;
+  falling.style.top = '40px';
+  state = 'moving';
+}
+
+function moveIngredient(now) {
+  if (state === 'moving') {
+    const elapsed = Math.min(50, now - lastFrame);
+    x += direction * 170 * elapsed / 1000;
+    const edge = Math.max(0, game.clientWidth - active.width);
+    if (x < 0 || x > edge) {
+      x = Math.max(0, Math.min(edge, x));
+      direction *= -1;
+    }
+    falling.style.left = `${x}px`;
   }
-  runner = requestAnimationFrame(move);
+  lastFrame = now;
+  requestAnimationFrame(moveIngredient);
 }
-function drop() {
-  if (dropping) return;
-  dropping = true; cancelAnimationFrame(runner);
-  const landingTop = game.clientHeight - 35 - (stackHeight - camera) - active.h;
-  ingredient.style.left = `${game.clientWidth / 2 - active.w / 2}px`;
-  ingredient.style.top = `${Math.max(20, landingTop)}px`;
-  setTimeout(() => {
-    const landed = document.createElement('div');
-    landed.className = 'sprite landed'; paint(landed, active);
-    landed.style.left = `${130 - active.w / 2}px`;
-    landed.style.bottom = `${stackHeight - 10}px`;
-    stack.appendChild(landed);
-    stackHeight += active.layer;
-    updateCamera();
-    setTimeout(runIngredient, 80);
-  }, 480);
+
+function landIngredient() {
+  const landed = document.createElement('div');
+  landed.className = 'piece';
+  setSprite(landed, active);
+  landed.style.left = `${130 - active.width / 2}px`;
+  landed.style.bottom = `${stackHeight - 8}px`;
+  burger.appendChild(landed);
+  stackHeight += active.thickness;
+  placeBurger();
+  setTimeout(nextIngredient, 100);
 }
-ingredient.addEventListener('click', drop);
+
+function dropIngredient() {
+  if (state !== 'moving') return;
+  state = 'dropping';
+  const startTop = Number.parseFloat(falling.style.top) || 40;
+  const endTop = game.clientHeight - 36 - (stackHeight - cameraY) - active.height;
+  const start = performance.now();
+  const duration = 320;
+  const centeredLeft = (game.clientWidth - active.width) / 2;
+  function fall(now) {
+    const progress = Math.min(1, (now - start) / duration);
+    falling.style.top = `${startTop + (endTop - startTop) * progress}px`;
+    falling.style.left = `${x + (centeredLeft - x) * progress}px`;
+    if (progress < 1) requestAnimationFrame(fall);
+    else landIngredient();
+  }
+  requestAnimationFrame(fall);
+}
+
+falling.addEventListener('click', dropIngredient);
 document.addEventListener('keydown', event => {
-  if (event.code === 'Space') { event.preventDefault(); drop(); }
+  if (event.code !== 'Space' || event.repeat) return;
+  event.preventDefault();
+  dropIngredient();
 });
-addEventListener('resize', updateCamera);
-runIngredient();
+window.addEventListener('resize', placeBurger);
+nextIngredient();
+requestAnimationFrame(moveIngredient);

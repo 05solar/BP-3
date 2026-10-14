@@ -1,9 +1,8 @@
 * { box-sizing:border-box; }
-html, body { width:100%; height:100%; margin:0; overflow:hidden; background:#fff; }
-.game-area { position:relative; width:100%; height:100%; overflow:hidden; background:#fff; cursor:crosshair; }
-.sprite { position:absolute; background-image:url('assets/burger-sprites.png'); background-size:896px 448px; background-repeat:no-repeat; image-rendering:pixelated; }
-.moving { z-index:5; top:22px; left:0; cursor:pointer; transition:top .48s linear, left .48s linear; }
-.moving:focus-visible { outline:2px solid #111; outline-offset:5px; }
-.stack { position:absolute; z-index:2; bottom:35px; left:50%; width:260px; height:100vh; transform:translateX(-50%); transition:transform .32s linear; }
-.base-bun { width:210px; height:69px; left:25px; bottom:0; background-position:-10px -96px; }
-.landed { z-index:2; }
+html, body, #game { width:100%; height:100%; margin:0; overflow:hidden; background:#fff; }
+#game { position:relative; cursor:pointer; }
+.piece { position:absolute; background-image:url('assets/burger-sprites.png'); background-repeat:no-repeat; background-size:896px 448px; image-rendering:pixelated; }
+#falling { z-index:2; top:40px; left:0; }
+#falling:focus-visible { outline:2px solid #111; outline-offset:4px; }
+#burger { position:absolute; z-index:1; bottom:36px; left:50%; width:260px; height:100vh; transform:translateX(-50%); }
+.bun { width:210px; height:69px; left:25px; bottom:0; background-position:-10px -96px; }
