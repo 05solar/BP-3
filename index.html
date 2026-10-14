@@ -7,9 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main id="game" aria-label="스페이스바 또는 움직이는 재료를 클릭해 햄버거를 쌓으세요">
-    <div id="burger"><div class="piece bun"></div></div>
-    <div id="falling" class="piece" role="button" tabindex="0" aria-label="재료 떨어뜨리기"></div>
+  <main id="game">
+    <div id="board" aria-label="스페이스바를 눌러 재료를 쌓으세요">
+      <div id="hud"><span id="score">0</span></div>
+
+      <div id="camera">
+        <div id="stack"></div>
+      </div>
+
+      <div id="falling" class="piece"></div>
+
+      <p id="hint">SPACE 를 눌러 재료를 떨어뜨리세요</p>
+
+      <div id="gameover" hidden>
+        <h1>게임 오버</h1>
+        <p id="finalScore">0개를 쌓았어요</p>
+        <button id="restart" type="button">다시 시작 (R)</button>
+      </div>
+    </div>
   </main>
   <script src="script.js"></script>
 </body>
