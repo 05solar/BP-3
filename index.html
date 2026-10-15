@@ -1,31 +1,20 @@
 <!doctype html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Burger Stack</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main id="game">
-    <div id="board" aria-label="스페이스바를 눌러 재료를 쌓으세요">
-      <div id="hud"><span id="score">0</span></div>
-
-      <div id="camera">
-        <div id="stack"></div>
-      </div>
-
-      <div id="falling" class="piece"></div>
-
-      <p id="hint">SPACE 를 눌러 재료를 떨어뜨리세요</p>
-
-      <div id="gameover" hidden>
-        <h1>게임 오버</h1>
-        <p id="finalScore">0개를 쌓았어요</p>
-        <button id="restart" type="button">다시 시작 (R)</button>
-      </div>
-    </div>
-  </main>
-  <script src="script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>우리의 첫 웹사이트</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <p>우리의 첫 웹사이트</p>
+      <p>우리가 만드는것</p>
+      <p>학교 공지 크롤링 사이트</p>
+      <p>우리팀 응원하기</p>
+      <button type="button" id="cheerButton">응원하기 버튼</button>
+      <p>응원 몇회: <span id="cheerCount">0</span></p>
+    </main>
+    <script src="script.js"></script>
+  </body>
 </html>

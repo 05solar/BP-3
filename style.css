@@ -1,131 +1,88 @@
-* { box-sizing: border-box; }
-
-html, body {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  background: #ffffff;
-  font-family: "Segoe UI", system-ui, sans-serif;
+* {
+  box-sizing: border-box;
 }
 
-#game {
-  width: 100%;
-  height: 100%;
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #fff;
+  color: #000;
+  font-family: sans-serif;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* The playfield: a clear vertical lane, white, fully visible in one view. */
-#board {
-  position: relative;
-  width: 420px;
-  height: min(90vh, 640px);
-  background: #ffffff;
-  overflow: hidden;
-  cursor: pointer;
-  user-select: none;
+main {
+  width: min(420px, calc(100% - 48px));
+  padding: 18px 0 18px 24px;
+  border-left: 3px solid #000;
 }
 
-#hud {
-  position: absolute;
-  top: 14px;
-  left: 18px;
-  z-index: 5;
-  font-size: 28px;
-  font-weight: 800;
-  color: #222;
-  letter-spacing: 1px;
+p {
+  margin: 0 0 12px;
+  line-height: 1.5;
 }
-#hud::before {
-  content: "🍔 ";
+
+main p:nth-child(1) {
   font-size: 22px;
-}
-
-#hint {
-  position: absolute;
-  bottom: 12px;
-  left: 0;
-  right: 0;
-  margin: 0;
-  z-index: 5;
-  text-align: center;
-  font-size: 13px;
-  color: #b4b4b4;
-  pointer-events: none;
-}
-
-/* Camera wraps the stack and slides vertically as the tower grows. */
-#camera {
-  position: absolute;
-  inset: 0;
-  will-change: transform;
-}
-
-#stack {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.piece {
-  position: absolute;
-  background-image: url("assets/burger-sprites.png");
-  background-repeat: no-repeat;
-  image-rendering: pixelated;
-}
-
-/* Stacked pieces animate when the tower collapses. */
-#stack .piece {
-  transition: transform 0.7s cubic-bezier(.2,.8,.3,1), opacity 0.7s ease;
-}
-
-/* Landing impact: the piece compresses onto the one below, then springs back. */
-@keyframes land-squash {
-  0%   { transform: scaleY(0.90) scaleX(1.03); }
-  60%  { transform: scaleY(1.02) scaleX(0.99); }
-  100% { transform: scaleY(1)    scaleX(1);    }
-}
-
-#falling {
-  z-index: 3;
-}
-
-#gameover {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(2px);
-}
-#gameover[hidden] { display: none; }
-#gameover h1 {
-  margin: 0;
-  font-size: 40px;
-  color: #e23b3b;
-  letter-spacing: 2px;
-}
-#finalScore {
-  margin: 0;
-  font-size: 18px;
-  color: #444;
-}
-#restart {
-  margin-top: 8px;
-  padding: 12px 26px;
-  font-size: 16px;
   font-weight: 700;
-  color: #fff;
-  background: #222;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
+  margin-bottom: 28px;
 }
-#restart:hover { background: #000; }
+
+main p:nth-child(2) {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+main p:nth-child(3) {
+  font-size: 15px;
+  font-weight: 400;
+}
+
+main p:nth-child(4) {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 26px;
+  margin-bottom: 8px;
+}
+
+main p:nth-child(6) {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 2px 0 0;
+}
+
+button {
+  margin: 0 0 4px;
+  padding: 7px 13px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #000;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, color .15s, transform .15s;
+}
+
+button:hover {
+  background: #000;
+  color: #fff;
+  transform: translateX(3px);
+}
+
+button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  body {
+    align-items: flex-start;
+  }
+
+  main {
+    margin-top: 110px;
+  }
+}
